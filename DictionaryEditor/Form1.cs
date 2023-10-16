@@ -21,9 +21,11 @@ namespace DictionaryEditor
             Name = "MainForm";
             Size = new Size(750, 500);
             MaximizeBox = false;
+            FormBorderStyle = FormBorderStyle.FixedDialog;
 
             var list = new ListBox()
             {
+                Name = "MainList",
                 Location = new Point(0, 0),
                 Size = new Size(Width / 3, Height - 30),
                 ItemHeight = 100
@@ -61,45 +63,9 @@ namespace DictionaryEditor
                 Text = "Adjective",
             };
             currentHeight += radioNoun.Height;
-            //radioNoun.Checked = true;
 
-            if (radioNoun.Checked)
-            {
-                //var pluralText = new Label()
-                //{
-                //    Location = new Point(list.Width, currentHeight),
-                //    Text = "Input plural form: ",
-                //    AutoSize = true,
-                //    Font = new Font(Font.FontFamily, 11)
-                //};
-
-                //var inputPluralForm = new TextBox()
-                //{
-                //    Location = new Point(list.Width + 150, currentHeight),
-                //    Size = new Size(labelDictionaryWord.Width * 2, 10)
-                //};
-                //currentHeight += pluralText.Height;
-
-                //var genetiveText = new Label()
-                //{
-                //    Location = new Point(list.Width, currentHeight),
-                //    Text = "Input genetive case form: ",
-                //    AutoSize = true,
-                //    Font = new Font(Font.FontFamily, 11)
-                //};
-                //var inputGenetiveCase = new TextBox()
-                //{
-                //    Location = new Point(list.Width + 180, currentHeight),
-                //    Size = new Size(labelDictionaryWord.Width * 2, 10)
-                //};
-                //currentHeight += inputGenetiveCase.Height;
-
-                //Controls.Add(pluralText);
-                //Controls.Add(inputPluralForm);
-                //Controls.Add(genetiveText);
-                //Controls.Add(inputGenetiveCase);
-            }
-            radioNoun.Checked += radioNoun_CheckedChanged;
+            radioNoun.CheckedChanged += radioNoun_CheckedChanged;
+            radioAdj.CheckedChanged += radioAdj_CheckedChanged;
 
             Controls.Add(list);
             Controls.Add(labelDictionaryWord);
@@ -121,9 +87,10 @@ namespace DictionaryEditor
 
         void radioNoun_CheckedChanged(object sender, EventArgs e)
         {
-            var currentHeight = 120;
+            var currentHeight = 70;
             var pluralText = new Label()
             {
+                Name = "pluralText",
                 Location = new Point(Width / 3, currentHeight),
                 Text = "Input plural form: ",
                 AutoSize = true,
@@ -133,7 +100,7 @@ namespace DictionaryEditor
             var inputPluralForm = new TextBox()
             {
                 Location = new Point(Width / 3 + 150, currentHeight),
-                Size = new Size(100, 10)
+                Size = new Size(200, 10)
             };
             currentHeight += pluralText.Height;
 
@@ -147,7 +114,7 @@ namespace DictionaryEditor
             var inputGenetiveCase = new TextBox()
             {
                 Location = new Point(Width / 3 + 180, currentHeight),
-                Size = new Size(100, 10)
+                Size = new Size(200, 10)
             };
             currentHeight += inputGenetiveCase.Height;
 
@@ -155,6 +122,16 @@ namespace DictionaryEditor
             Controls.Add(inputPluralForm);
             Controls.Add(genetiveText);
             Controls.Add(inputGenetiveCase);
+        }
+
+        void radioAdj_CheckedChanged(object sender, EventArgs e)
+        {
+            //Controls.RemoveByKey("MainList");
+            Controls.RemoveByKey("pluralText");
+            //Controls.RemoveAt(Controls.Count - 1);
+            //Controls.Add(inputPluralForm);
+            //Controls.Add(genetiveText);
+            //Controls.Add(inputGenetiveCase);
         }
     }
 }
