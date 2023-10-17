@@ -19,7 +19,7 @@ namespace DictionaryEditor
             InitializeComponent();
             Text = "Редактор словаря";
             Name = "MainForm";
-            Size = new Size(750, 500);
+            Size = new Size(800, 600);
             MaximizeBox = false;
             FormBorderStyle = FormBorderStyle.FixedDialog;
 
@@ -27,7 +27,15 @@ namespace DictionaryEditor
             {
                 Name = "MainList",
                 Location = new Point(0, 0),
-                Size = new Size(Width / 3, Height - 30),
+                Size = new Size(Width / 3, Height - 37),
+                ItemHeight = 100
+            };
+
+            var phrasesList = new ListBox()
+            {
+                Name = "PhrasesList",
+                Location = new Point(Width / 3, Height / 2 + 15),
+                Size = new Size(Width / 2 + 107, Height / 2 - 39),
                 ItemHeight = 100
             };
 
@@ -54,7 +62,7 @@ namespace DictionaryEditor
             var radioNoun = new RadioButton()
             {
                 Location = new Point(list.Width, currentHeight),
-                Name = "radioNoun",
+                Name = "RadioNoun",
                 Text = "Noun",
             };
             var radioAdj = new RadioButton()
@@ -68,6 +76,7 @@ namespace DictionaryEditor
             radioAdj.CheckedChanged += radioAdj_CheckedChanged;
 
             Controls.Add(list);
+            Controls.Add(phrasesList);
             Controls.Add(labelDictionaryWord);
             Controls.Add(inputDictionaryWord);
             Controls.Add(radioNoun);
@@ -76,62 +85,95 @@ namespace DictionaryEditor
             SizeChanged += (sender, args) =>
             {
                 list.Size = new Size(Width / 3, Height - 30);
-                //label.Location = new Point(0, (ClientSize.Height - height * 3) / 2);
-                //label.Size = new Size(ClientSize.Width, height);
-                //input.Location = new Point(0, label.Bottom);
-                //input.Size = label.Size;
-                //button.Location = new Point(0, input.Bottom);
-                //button.Size = label.Size;
             };
         }
 
         void radioNoun_CheckedChanged(object sender, EventArgs e)
         {
-            var currentHeight = 70;
-            var pluralText = new Label()
+            if (((RadioButton)sender).Checked)
             {
-                Name = "pluralText",
-                Location = new Point(Width / 3, currentHeight),
-                Text = "Input plural form: ",
-                AutoSize = true,
-                Font = new Font(Font.FontFamily, 11)
-            };
+                if (Controls.ContainsKey("PluralText"))
+                {
+                    Controls.Find("PluralText", true).First().Show();
+                    Controls.Find("InputPluralForm", true).First().Show();
+                    Controls.Find("GenetiveText", true).First().Show();
+                    Controls.Find("InputGenetiveCase", true).First().Show();
+                    Controls.Find("InputPhrase", true).First().Show();
+                    Controls.Find("PhraseText", true).First().Show();
+                }
+                else
+                {
+                    var currentHeight = 70;
+                    var pluralText = new Label()
+                    {
+                        Name = "PluralText",
+                        Location = new Point(Width / 3, currentHeight),
+                        Text = "Input plural form: ",
+                        AutoSize = true,
+                        Font = new Font(Font.FontFamily, 11)
+                    };
 
-            var inputPluralForm = new TextBox()
-            {
-                Location = new Point(Width / 3 + 150, currentHeight),
-                Size = new Size(200, 10)
-            };
-            currentHeight += pluralText.Height;
+                    var inputPluralForm = new TextBox()
+                    {
+                        Name = "InputPluralForm",
+                        Location = new Point(Width / 3 + 180, currentHeight),
+                        Size = new Size(200, 10)
+                    };
+                    currentHeight += inputPluralForm.Height;
 
-            var genetiveText = new Label()
-            {
-                Location = new Point(Width / 3, currentHeight),
-                Text = "Input genetive case form: ",
-                AutoSize = true,
-                Font = new Font(Font.FontFamily, 11)
-            };
-            var inputGenetiveCase = new TextBox()
-            {
-                Location = new Point(Width / 3 + 180, currentHeight),
-                Size = new Size(200, 10)
-            };
-            currentHeight += inputGenetiveCase.Height;
+                    var genetiveText = new Label()
+                    {
+                        Name = "GenetiveText",
+                        Location = new Point(Width / 3, currentHeight),
+                        Text = "Input genetive case form: ",
+                        AutoSize = true,
+                        Font = new Font(Font.FontFamily, 11)
+                    };
+                    var inputGenetiveCase = new TextBox()
+                    {
+                        Name = "InputGenetiveCase",
+                        Location = new Point(Width / 3 + 180, currentHeight),
+                        Size = new Size(200, 10)
+                    };
+                    currentHeight += inputGenetiveCase.Height;
 
-            Controls.Add(pluralText);
-            Controls.Add(inputPluralForm);
-            Controls.Add(genetiveText);
-            Controls.Add(inputGenetiveCase);
+                    var phraseText = new Label()
+                    {
+                        Name = "PhraseText",
+                        Location = new Point(Width / 3, currentHeight),
+                        Text = "Input phrase: ",
+                        AutoSize = true,
+                        Font = new Font(Font.FontFamily, 11)
+                    };
+                    var inputPhrase = new TextBox()
+                    {
+                        Name = "InputPhrase",
+                        Location = new Point(Width / 3 + 180, currentHeight),
+                        Size = new Size(200, 10)
+                    };
+
+                    Controls.Add(pluralText);
+                    Controls.Add(inputPluralForm);
+                    Controls.Add(genetiveText);
+                    Controls.Add(inputGenetiveCase);
+                    Controls.Add(phraseText);
+                    Controls.Add(inputPhrase);
+                }
+            }
         }
 
         void radioAdj_CheckedChanged(object sender, EventArgs e)
         {
-            //Controls.RemoveByKey("MainList");
-            Controls.RemoveByKey("pluralText");
-            //Controls.RemoveAt(Controls.Count - 1);
-            //Controls.Add(inputPluralForm);
-            //Controls.Add(genetiveText);
-            //Controls.Add(inputGenetiveCase);
+            if (((RadioButton)sender).Checked)
+            {
+                Controls.Find("PluralText", true).First().Hide();
+                Controls.Find("InputPluralForm", true).First().Hide();
+                Controls.Find("GenetiveText", true).First().Hide();
+                Controls.Find("InputGenetiveCase", true).First().Hide();
+                Controls.Find("InputPhrase", true).First().Hide();
+                Controls.Find("PhraseText", true).First().Hide();
+            }
+            
         }
     }
 }
